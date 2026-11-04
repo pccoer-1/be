@@ -1,0 +1,1367 @@
+2. Group A – DAA Viva Questions
+Practical 1: Fibonacci Series
+Recursion and Iteration
+Q1. What is the Fibonacci series?
+
+A sequence where each number is the sum of the previous two numbers, starting with 0 and 1.
+
+Q2. What is recursion?
+
+A function calling itself to solve a smaller subproblem.
+
+Q3. What is the base condition in your program?
+if (n <= 1)
+    return n;
+
+
+It stops recursive calls.
+
+Q4. What is the difference between recursive and non-recursive Fibonacci?
+
+Recursive Fibonacci uses function calls, whereas non-recursive Fibonacci uses a loop.
+
+Q5. What is the time complexity of recursive Fibonacci?
+
+O(2ⁿ) as an upper bound for naive recursion.
+
+Q6. What is the time complexity of iterative Fibonacci?
+
+O(n).
+
+Q7. What is their space complexity?
+- Recursive: O(n) call stack.
+- Iterative: O(1) auxiliary space.
+Q8. Why is iterative Fibonacci better?
+
+It avoids repeated calculations and excessive function calls.
+
+Q9. What is stack overflow?
+
+An error caused when the call stack exceeds available memory.
+
+Q10. What is the maximum Fibonacci index that fits in long long?
+
+92, for a signed 64-bit integer.
+Practical 2: Huffman Encoding
+Greedy Algorithm
+Q1. What is Huffman Encoding?
+
+A lossless data compression technique that assigns variable-length binary codes according to character frequencies.
+
+Q2. Who developed Huffman Coding?
+
+David A. Huffman in 1952.
+
+Q3. Which algorithmic strategy is used?
+
+Greedy strategy.
+
+Q4. Which data structure is used?
+
+Min-priority queue.
+
+Q5. Why do we use a min-priority queue?
+
+To efficiently extract the two nodes with minimum frequencies.
+
+Q6. What is a Huffman tree?
+
+A binary tree used to generate prefix-free codes.
+
+Q7. What is a leaf node?
+
+A node without children, representing an input character.
+
+Q8. What is a prefix-free code?
+
+A code where no codeword is the prefix of another codeword.
+
+Q9. Why are frequently occurring characters assigned shorter codes?
+
+To minimize the total weighted encoding length.
+
+Q10. What is the time complexity?
+
+O(n log n), where n is the number of distinct characters.
+
+Q11. What does pq.top() do?
+
+Returns the highest-priority element, which is the minimum-frequency node with our comparator.
+
+Q12. What does pq.pop() do?
+
+Removes the top element from the priority queue.
+
+Q13. Why do we use '\0' for internal nodes?
+
+It is used as a placeholder because an internal node represents a combination of characters, not an actual input character.
+
+Q14. What is lossless compression?
+
+Compression where the original data can be reconstructed exactly.
+Practical 3: 0/1 Knapsack
+Dynamic Programming
+Q1. What is the Knapsack Problem?
+
+Selecting items with given weights and values to maximize total value without exceeding the capacity.
+
+Q2. Why is it called 0/1 Knapsack?
+
+Because an item is either selected completely (1) or not selected (0). Fractions are not allowed.
+
+Q3. Which algorithmic technique is used?
+
+Dynamic Programming.
+
+Q4. What is Dynamic Programming?
+
+A technique that stores solutions to subproblems to avoid repeated calculations.
+
+Q5. What is the DP table used for?
+
+It stores the maximum value achievable using the first i items and capacity w.
+
+Q6. Explain the recurrence relation.
+\[
+DP[i][w]=
+\begin{cases}
+DP[i-1][w], & wt_i>w\\
+\max(DP[i-1][w],v_i+DP[i-1][w-wt_i]), & wt_i\leq w
+\end{cases}
+\]
+
+Q7. What is the base condition?
+
+When there are zero items or zero capacity, maximum value is zero.
+
+Q8. What is the time complexity?
+
+O(nW), where n is the number of items and W is capacity.
+
+Q9. What is the space complexity?
+
+O(nW) for the two-dimensional DP table.
+
+Q10. Difference between Fractional and 0/1 Knapsack?
+
+Fractional Knapsack allows partial items and is solved optimally using a greedy strategy. 0/1 Knapsack does not allow partial items and is solved using DP in this implementation.
+
+Q11. Why do we use max() in the program?
+
+To select the better option: include the item or exclude it.
+
+Q12. What is optimal substructure?
+
+An optimal solution can be constructed using optimal solutions to smaller subproblems.
+
+Q13. What is overlapping subproblem?
+
+The same smaller problem occurs repeatedly during computation.
+
+Q14. Why do we use vector<vector<int>>?
+
+To create a two-dimensional DP table dynamically.
+Practical 4: N-Queens Problem
+Backtracking
+Q1. What is the N-Queens Problem?
+
+Placing N queens on an N×N chessboard so that no two queens attack each other.
+
+Q2. Which algorithm is used?
+
+Backtracking.
+
+Q3. What is backtracking?
+
+Trying possible solutions, rejecting invalid choices and undoing previous choices when necessary.
+
+Q4. How many directions must be checked in your implementation?
+
+Three directions: same column, upper-left diagonal and upper-right diagonal.
+
+Q5. Why do we not check the lower rows?
+
+Because queens are placed row by row, so lower rows are still empty.
+
+Q6. What does isSafe() do?
+
+Checks whether placing a queen at a particular position is valid.
+
+Q7. What is the base condition?
+if (row == n)
+    return true;
+
+
+It means all queens have been successfully placed.
+
+Q8. What is backtracking in your code?
+board[row][col] = 0;
+
+
+It removes a previously placed queen when that choice does not lead to a solution.
+
+Q9. What is the worst-case time complexity?
+
+O(N!) as a commonly used upper bound for this row-by-row search.
+
+Q10. What is the space complexity?
+
+O(N²) for the board, plus O(N) recursion stack.
+
+Q11. Can two queens attack each other diagonally?
+
+Yes. Queens can attack horizontally, vertically and diagonally.
+
+Q12. Why does your program ask for the first queen's column?
+
+Because the assignment requires the first queen to be placed before backtracking places the remaining queens.
+
+Q13. Does your program find all solutions?
+
+No. It returns after finding the first valid solution.
+
+Q14. What happens for N=2 and N=3?
+
+No solution exists for either board size.
+Practical 5: Quick Sort
+Divide and Conquer
+Q1. What is Quick Sort?
+
+A sorting algorithm that selects a pivot, partitions the array and recursively sorts the two partitions.
+
+Q2. Which design technique does it use?
+
+Divide and Conquer.
+
+Q3. What is a pivot?
+
+An element used to divide the array into two partitions.
+
+Q4. What is partitioning?
+
+Rearranging elements so that smaller elements are on one side of the pivot and larger elements are on the other side.
+
+Q5. What is deterministic Quick Sort in your program?
+
+It always selects the last element as the pivot.
+
+Q6. What is randomized Quick Sort?
+
+It selects a random element as the pivot.
+
+Q7. What is the average time complexity?
+
+O(n log n).
+
+Q8. What is the worst-case time complexity?
+
+O(n²).
+
+Q9. When does the worst case occur in your deterministic implementation?
+
+When pivot selection repeatedly creates highly unbalanced partitions, such as on already sorted input with distinct elements.
+
+Q10. What is the space complexity?
+
+O(log n) average recursion stack, O(n) worst case.
+
+Q11. Is Quick Sort stable?
+
+No, the standard implementation is not stable.
+
+Q12. Is Quick Sort in-place?
+
+It is generally considered in-place because it rearranges the input array, although it uses recursion-stack memory.
+
+Q13. Why do we use srand(time(0))?
+
+To initialize the random-number generator with a changing seed.
+
+Q14. Why do we create two copies of the input array?
+
+To give both algorithms the same original input for a fair comparison.
+
+Q15. Does randomized Quick Sort guarantee O(n log n)?
+
+No. It has expected O(n log n) time, but its worst case remains O(n²).
+
+3. Group B – Machine Learning Viva Questions
+For ML, the external examiner usually focuses on five areas:
+1. Dataset and its features.
+2. Data preprocessing.
+3. Training and testing.
+4. Algorithm selection.
+5. Model evaluation metrics.
+You should know what every imported library does and why each preprocessing step is required.
+Practical 6: Uber Fare Prediction
+Linear Regression + Random Forest Regression
+Q1. What is Machine Learning?
+
+Machine Learning is a branch of AI that enables computers to learn patterns from data and make predictions without explicitly programming every rule.
+
+Q2. What is Regression?
+
+Regression is a supervised learning technique used to predict continuous numerical values.
+
+Q3. What is the objective of this practical?
+
+To predict Uber ride fare amounts using pickup and drop-off information.
+
+Q4. Which dataset are you using?
+
+Uber Fares Dataset from Kaggle.
+
+Q5. What is the target variable?
+
+fare_amount.
+
+Q6. What are features?
+
+Input variables used to predict the target, such as pickup coordinates, drop-off coordinates, passenger count and extracted date/time features.
+
+Q7. What is Linear Regression?
+
+A supervised learning algorithm that models a linear relationship between input features and a continuous output.
+\[
+y=b_0+b_1x_1+b_2x_2+\cdots+b_nx_n
+\]
+
+Q8. What is Random Forest Regression?
+
+An ensemble learning algorithm that combines predictions from multiple decision trees.
+
+Q9. Difference between Linear Regression and Random Forest?
+
+Linear Regression models a linear relationship. Random Forest can capture complex nonlinear relationships.
+
+Q10. What is preprocessing?
+
+Cleaning and transforming raw data into a suitable format for machine learning.
+
+Q11. Why do we remove missing values?
+
+Missing values can cause errors or affect model training if not handled properly.
+
+Q12. What is an outlier?
+
+An observation significantly different from the general pattern of the dataset.
+
+Q13. What are latitude and longitude?
+
+Geographical coordinates representing a location on Earth.
+
+Q14. Why do we extract hour, day and month from pickup_datetime?
+
+To convert timestamp information into numerical features that may help the model identify time-related fare patterns.
+
+Q15. What is correlation?
+
+A statistical measure that describes the strength and direction of the relationship between two variables.
+
+Q16. What is R² score?
+
+It measures how much of the variance in the target variable is explained by the regression model.
+
+Q17. What is RMSE?
+
+Root Mean Squared Error. It measures prediction error and penalizes larger errors more heavily.
+\[
+RMSE=\sqrt{\frac{\sum(y-\hat y)^2}{n}}
+\]
+
+Q18. What is MAE?
+
+Mean Absolute Error, the average absolute difference between actual and predicted values.
+
+Q19. Which is better: Linear Regression or Random Forest?
+
+The model with better performance on unseen test data, considering appropriate metrics, is preferable. Random Forest may capture nonlinear patterns better, but it is not guaranteed to win.
+
+Q20. Why do we use random_state=42?
+
+To make the train-test split or randomized model operations reproducible.
+Practical 7: Email Spam Classification
+KNN + SVM
+Q1. What is Classification?
+
+A supervised learning technique that predicts a category or class label.
+
+Q2. What is the objective of spam detection?
+
+To classify emails into Spam and Not Spam.
+
+Q3. What are the two classes?
+- 1 – Spam
+- 0 – Not Spam
+The exact encoding depends on the dataset.
+
+Q4. What is KNN?
+
+K-Nearest Neighbors is a supervised learning algorithm that classifies a new data point based on the classes of its nearest K neighbors.
+
+Q5. What is the meaning of K in KNN?
+
+The number of nearest neighbors considered during classification.
+
+Q6. What happens when K is too small?
+
+The model may become sensitive to noise and overfit.
+
+Q7. What happens when K is too large?
+
+The model may underfit because too many neighbors influence the prediction.
+
+Q8. What is SVM?
+
+Support Vector Machine is a supervised learning algorithm that finds a decision boundary separating classes with maximum margin.
+
+Q9. What are support vectors?
+
+Data points closest to the decision boundary that influence the position of the separating hyperplane.
+
+Q10. What is TF-IDF?
+
+Term Frequency–Inverse Document Frequency. It converts text into numerical features based on how important words are within documents.
+
+Q11. Why is TF-IDF required?
+
+Machine learning algorithms cannot directly process raw text as numerical feature vectors in this implementation.
+
+Q12. What is tokenization?
+
+Breaking text into smaller units such as words or tokens.
+
+Q13. What is stop-word removal?
+
+Removing common words such as "the", "is" and "and" that may provide limited useful information.
+
+Q14. Why do we use drop_duplicates()?
+
+To remove repeated email records.
+
+Q15. Why use stratify=y in train_test_split?
+
+To preserve approximately the same class distribution in training and testing datasets.
+
+Q16. What is LinearSVC?
+
+A linear Support Vector Classifier implementation that uses a linear decision boundary.
+
+Q17. Difference between KNN and SVM?
+
+KNN uses nearby data points for prediction. SVM learns a separating decision boundary during training.
+
+Q18. Which algorithm is better for spam detection?
+
+It depends on the dataset, feature representation and evaluation results. Linear SVM often performs well on high-dimensional sparse text features.
+Practical 8: Bank Customer Churn Prediction
+Artificial Neural Network
+Q1. What is Customer Churn?
+
+Customer churn means a customer stops using a company's product or service.
+
+Q2. What is the objective of this practical?
+
+To predict whether a bank customer is likely to leave the bank.
+
+Q3. Which type of ML problem is this?
+
+Supervised binary classification.
+
+Q4. What is an Artificial Neural Network?
+
+A computational model inspired by interconnected neurons, consisting of layers that learn patterns from data.
+
+Q5. What are the layers in your model?
+- Input layer
+- Hidden layer with 16 neurons
+- Hidden layer with 8 neurons
+- Output layer with 1 neuron
+Q6. What is a neuron?
+
+A computational unit that takes inputs, applies weights and bias, and passes the result through an activation function.
+
+Q7. What is an activation function?
+
+A function that introduces nonlinearity into a neural network.
+
+Q8. Which activation function is used in hidden layers?
+
+ReLU.
+\[
+ReLU(x)=\max(0,x)
+\]
+
+Q9. Which activation function is used in the output layer?
+
+Sigmoid.
+\[
+\sigma(x)=\frac{1}{1+e^{-x}}
+\]
+
+Q10. Why is Sigmoid used?
+
+It produces an output between 0 and 1, suitable for binary classification probabilities.
+
+Q11. What is an epoch?
+
+One complete pass through the training dataset.
+
+Q12. What is batch size?
+
+The number of training samples processed before updating the model weights.
+
+Q13. What is the batch size in your code?
+
+32.
+
+Q14. What is the number of epochs?
+
+20.
+
+Q15. What is an optimizer?
+
+An algorithm used to update neural network weights to minimize the loss function.
+
+Q16. Which optimizer is used?
+
+Adam optimizer.
+
+Q17. What is loss function?
+
+A function that measures how far model predictions are from actual values.
+
+Q18. Which loss function is used?
+
+Binary Cross-Entropy.
+
+Q19. Why do we use StandardScaler?
+
+To standardize numerical features so they have approximately zero mean and unit variance.
+
+Q20. Why do we use one-hot encoding?
+
+To convert categorical values such as country and gender into numerical features.
+
+Q21. What is overfitting?
+
+When a model performs well on training data but poorly on unseen data.
+
+Q22. What is underfitting?
+
+When a model fails to learn the important patterns even from training data.
+
+Q23. What is the difference between training and testing data?
+
+Training data teaches the model; testing data evaluates its generalization on unseen examples.
+Practical 9: Diabetes Prediction Using KNN
+K-Nearest Neighbors Classification
+Q1. What is the objective of this practical?
+
+To predict whether a person has diabetes based on health-related features.
+
+Q2. Which algorithm is used?
+
+K-Nearest Neighbors.
+
+Q3. Is this supervised or unsupervised learning?
+
+Supervised learning because the dataset contains known diabetes labels.
+
+Q4. What is the target variable?
+
+diabetes.
+
+Q5. What are the features?
+
+The uploaded notebook uses health attributes such as age, gender, BMI, hypertension, heart disease, smoking history, HbA1c level and blood glucose level, depending on the dataset columns.
+
+Q6. Why do we use StandardScaler?
+
+Because KNN is distance-based, and features with larger numerical scales could dominate the distance calculation.
+
+Q7. What is Euclidean Distance?
+
+A distance measure between two points:
+\[
+d(x,y)=\sqrt{\sum_{i=1}^{n}(x_i-y_i)^2}
+\]
+
+Q8. What is the K value in your program?
+
+K = 5.
+
+Q9. Why is K=5 used?
+
+It is the selected hyperparameter for this implementation. It is not universally optimal and can be tuned.
+
+Q10. What is a confusion matrix?
+
+A table comparing actual and predicted classes.
+
+Q11. What are TP, TN, FP and FN?
+- TP: Actual positive, predicted positive.
+- TN: Actual negative, predicted negative.
+- FP: Actual negative, predicted positive.
+- FN: Actual positive, predicted negative.
+Q12. What is Accuracy?
+\[
+Accuracy=\frac{TP+TN}{TP+TN+FP+FN}
+\]
+
+Q13. What is Precision?
+\[
+Precision=\frac{TP}{TP+FP}
+\]
+
+Q14. What is Recall?
+\[
+Recall=\frac{TP}{TP+FN}
+\]
+
+Q15. What is F1-score?
+
+The harmonic mean of precision and recall.
+\[
+F1=2\frac{Precision\times Recall}{Precision+Recall}
+\]
+
+Q16. What is Error Rate?
+\[
+ErrorRate=1-Accuracy
+\]
+
+Q17. Why do we use train_test_split()?
+
+To divide the dataset into training and testing subsets.
+
+Q18. What is the purpose of stratify=y?
+
+To preserve class proportions in both subsets.
+
+Q19. What is get_dummies()?
+
+A Pandas function used for one-hot encoding categorical variables.
+
+Q20. Why should we fit the scaler only on training data?
+
+To prevent data leakage from the test dataset into model training.
+Practical 10: Sales Data Clustering
+K-Means + Hierarchical Clustering
+Q1. What is Clustering?
+
+An unsupervised learning technique that groups similar data points together.
+
+Q2. Why is it called unsupervised learning?
+
+Because the data does not require predefined target labels.
+
+Q3. What is K-Means?
+
+A clustering algorithm that divides data into K clusters based on distance from cluster centroids.
+
+Q4. What is a centroid?
+
+The mean position of all points assigned to a cluster.
+
+Q5. What is K in K-Means?
+
+The predefined number of clusters.
+
+Q6. What is the K value in your notebook?
+
+K = 3.
+
+Q7. How does K-Means work?
+1. Initialize K centroids.
+2. Assign each point to its nearest centroid.
+3. Recalculate centroids.
+4. Repeat until assignments or centroids stabilize.
+Q8. What is the elbow method?
+
+A technique used to estimate the appropriate number of clusters by plotting WCSS against different K values.
+
+Q9. What is WCSS?
+
+Within-Cluster Sum of Squares. It measures the sum of squared distances between points and their assigned centroids.
+
+Q10. What is Hierarchical Clustering?
+
+A clustering technique that builds a hierarchy of clusters by repeatedly merging or splitting groups.
+
+Q11. What is Agglomerative Clustering?
+
+A bottom-up hierarchical clustering method that starts with individual data points and merges them into larger clusters.
+
+Q12. What is a dendrogram?
+
+A tree-like diagram showing how clusters are merged or divided.
+
+Q13. What is Ward's linkage?
+
+A linkage method that merges clusters by minimizing the increase in within-cluster variance.
+
+Q14. Difference between K-Means and Hierarchical Clustering?
+
+K-Means uses centroids and requires K beforehand. Hierarchical Clustering builds a tree of clusters and can be examined using a dendrogram.
+
+Q15. Why do we use StandardScaler?
+
+Because features such as sales amount and quantity sold can have different numerical scales.
+
+Q16. What is random_state=42?
+
+It makes the random initialization reproducible.
+
+Q17. What does n_init=10 mean?
+
+K-Means runs with 10 centroid initializations and selects the best result according to its objective.
+
+Q18. What is the difference between supervised and unsupervised learning?
+
+Supervised learning uses labelled data; unsupervised learning finds patterns in unlabelled data.
+
+4. Group C – Blockchain Technology Viva Questions
+For Blockchain, the examiner may ask practical questions about MetaMask, Ethereum, Solidity, Remix IDE, smart contracts, gas and blockchain architecture.
+Practical 11: MetaMask Installation and Ether Transaction Fees
+Blockchain Wallet
+Q1. What is Blockchain?
+
+A distributed digital ledger that stores transactions in cryptographically linked blocks.
+
+Q2. What is MetaMask?
+
+A cryptocurrency wallet that allows users to manage blockchain accounts and interact with decentralized applications.
+
+Q3. What is Ethereum?
+
+A blockchain platform that supports smart contracts and decentralized applications.
+
+Q4. What is Ether?
+
+ETH is the native cryptocurrency of the Ethereum network.
+
+Q5. What is Gas?
+
+Gas is the unit used to measure the computational work required to execute transactions and smart contracts on Ethereum.
+
+Q6. What is Gas Fee?
+
+The transaction fee paid for the computational resources consumed by a transaction.
+
+Q7. How is the transaction fee calculated?
+\[
+Fee=GasUsed\times EffectiveGasPrice
+\]
+
+Q8. What is Gwei?
+
+A denomination of Ether.
+\[
+1\ ETH=10^9\ Gwei
+\]
+
+Q9. What is Wei?
+
+The smallest denomination of Ether.
+\[
+1\ ETH=10^{18}\ Wei
+\]
+
+Q10. What is a wallet address?
+
+A public identifier used to receive cryptocurrency and interact with blockchain accounts. Ethereum addresses are generally 20-byte values represented as 40 hexadecimal characters with a 0x prefix.
+
+Q11. What is a private key?
+
+A secret cryptographic key used to authorize transactions.
+
+Q12. What is a Secret Recovery Phrase?
+
+A sequence of words used to recover access to a wallet's accounts. It must never be shared.
+
+Q13. What is a testnet?
+
+A blockchain network used for development and testing without using real-value cryptocurrency.
+
+Q14. What is Sepolia?
+
+An Ethereum test network used for smart contract development and testing.
+
+Q15. What is a Faucet?
+
+A service that provides test cryptocurrency for development purposes.
+Practical 12: Create Wallet and Perform Crypto Transactions
+Q1. What is a cryptocurrency transaction?
+
+A digitally signed operation that transfers cryptocurrency or interacts with a smart contract.
+
+Q2. What are the main steps in a transaction?
+
+Create transaction, sign it, broadcast it, validate it, include it in a block and wait for confirmation.
+
+Q3. What is a transaction hash?
+
+A unique hash identifier used to identify a blockchain transaction.
+
+Q4. What is a block explorer?
+
+A web application that allows users to inspect blockchain transactions, addresses, blocks and other network information.
+
+Q5. What is a sender address?
+
+The wallet address initiating a transaction.
+
+Q6. What is a receiver address?
+
+The wallet address receiving the cryptocurrency.
+
+Q7. What is a nonce in Ethereum?
+
+A sequential transaction counter associated with an externally owned account. It helps prevent replay and ordering issues.
+
+Q8. What happens if the transaction fails?
+
+The transaction may be recorded as failed, and gas already consumed is generally still charged.
+
+Q9. What is the difference between a public key and private key?
+
+The public key can be shared for cryptographic verification; the private key must remain secret and is used for signing.
+
+Q10. Is Sepolia ETH real money?
+
+No. It is test Ether and has no intended monetary value.
+
+Q11. What is a transaction receipt?
+
+A record containing execution information such as status, gas used and block information.
+
+Q12. What is the difference between a wallet address and a transaction hash?
+
+A wallet address identifies an account; a transaction hash identifies a particular transaction.
+Practical 13: Bank Account Smart Contract
+Solidity + Ethereum + Remix IDE
+Q1. What is a Smart Contract?
+
+A smart contract is a program deployed on a blockchain that executes according to predefined conditions.
+
+Q2. Which programming language is used?
+
+Solidity.
+
+Q3. What is Remix IDE?
+
+An online development environment used to write, compile, deploy and interact with Solidity smart contracts.
+
+Q4. What is the purpose of pragma solidity ^0.8.20?
+
+It specifies the compatible Solidity compiler version range.
+
+Q5. What is a constructor?
+
+A special function executed once when a smart contract is deployed.
+
+Q6. What does msg.sender represent?
+
+The address that called the current function.
+
+Q7. What does msg.value represent?
+
+The amount of Ether sent with the current payable transaction, measured in Wei.
+
+Q8. What is the payable keyword?
+
+It allows a function or address to receive Ether.
+
+Q9. Explain the deposit function.
+
+It accepts Ether and increases the contract's internal balance.
+
+Q10. Explain the withdraw function.
+
+It checks the owner's identity and available balance, reduces the recorded balance and transfers Ether to the owner.
+
+Q11. What does require() do?
+
+It checks a condition and reverts the transaction if the condition is false.
+
+Q12. What is uint256?
+
+An unsigned 256-bit integer.
+
+Q13. What is the view keyword?
+
+It indicates that a function reads blockchain state but does not modify it.
+
+Q14. What is the difference between public and private?
+
+public members can be accessed externally through generated interfaces; private members can only be accessed inside the contract.
+
+Q15. What is Wei?
+
+The smallest denomination of Ether. One ETH equals \(10^{18}\) Wei.
+
+Q16. What is the difference between memory and storage?
+
+memory stores temporary data during function execution. storage refers to persistent contract state.
+
+Q17. What is contract deployment?
+
+Publishing a compiled smart contract to a blockchain through a deployment transaction.
+
+Q18. What is the owner variable?
+
+It stores the address of the account that deployed the contract.
+
+Q19. Why is showBalance() declared as view?
+
+Because it only reads the stored balance and does not modify state.
+
+Q20. What happens if someone tries to withdraw more than the available balance?
+
+The require() condition fails and the transaction reverts.
+Practical 14: Student Data Smart Contract
+Structures + Arrays + Fallback
+Q1. What is a structure in Solidity?
+
+A user-defined data type that groups multiple variables of different data types.
+
+Q2. Why do we use structures?
+
+To organize related information into a single logical record.
+
+Q3. What is an array?
+
+A collection of elements of the same data type.
+
+Q4. Which type of array is used in your program?
+
+A dynamic array:
+Student[] public students;
+
+
+Q5. What is a dynamic array?
+
+An array whose length can change during contract execution.
+
+Q6. What does students.push() do?
+
+Adds a new student record to the end of the array.
+
+Q7. What is a fallback function?
+
+A special function executed when a contract receives a call with unmatched function data, subject to its visibility and mutability.
+
+Q8. What is the syntax of fallback?
+fallback() external payable {
+}
+
+
+Q9. What is the difference between fallback and receive?
+- receive() executes when Ether is received with empty calldata.
+- fallback() executes when calldata does not match an existing function, or when Ether is sent with unmatched calldata and no applicable receive function exists.
+Q10. What does external mean?
+
+The function can be called from outside the contract and through external calls.
+
+Q11. What does payable mean?
+
+The function can receive Ether.
+
+Q12. What is the purpose of getStudent()?
+
+It retrieves student information using an array index.
+
+Q13. What does students.length return?
+
+The total number of student records stored in the array.
+
+Q14. What is the purpose of getStudentCount()?
+
+It returns the number of stored students.
+
+Q15. Why do we use memory for strings in function parameters?
+
+Because strings are reference types, and memory specifies temporary memory allocation for them.
+
+Q16. What is a state variable?
+
+A variable declared at contract level whose value is stored persistently on the blockchain.
+
+Q17. What is the difference between memory and storage for a structure?
+
+Memory creates a temporary copy; storage refers to the persistent state record.
+
+Q18. What happens if an invalid student index is passed?
+
+The array access reverts because the index is out of bounds.
+
+Q19. Can we store multiple students?
+
+Yes, by calling addStudent() multiple times.
+
+Q20. What happens when a payable fallback receives Ether?
+
+The contract receives Ether, and its total Ether balance increases. Your fallback function does not otherwise update a student-related variable.
+Practical 15: Survey – Types of Blockchains and Real-Time Applications
+Blockchain Fundamentals
+Q1. What are the four major types of blockchain?
+1. Public Blockchain
+2. Private Blockchain
+3. Consortium Blockchain
+4. Hybrid Blockchain
+Q2. What is a Public Blockchain?
+
+An open network where anyone can generally participate and verify transactions.
+
+Example: Bitcoin and Ethereum.
+
+Q3. What is a Private Blockchain?
+
+A permissioned blockchain controlled by one organization.
+
+Example: A private enterprise blockchain deployment.
+
+Q4. What is a Consortium Blockchain?
+
+A blockchain governed by multiple selected organizations.
+
+Example: A network shared by several banks.
+
+Q5. What is a Hybrid Blockchain?
+
+A combination of public and private blockchain characteristics.
+
+Q6. What is decentralization?
+
+Distributing control and decision-making across multiple network participants rather than relying on one central authority.
+
+Q7. What is a distributed ledger?
+
+A shared database maintained across multiple network participants.
+
+Q8. What is consensus?
+
+A mechanism through which network participants agree on the validity and ordering of transactions.
+
+Q9. What is Proof of Work?
+
+A consensus mechanism that requires computational work to propose or validate blocks.
+
+Q10. What is Proof of Stake?
+
+A consensus mechanism in which validators participate based on staked cryptocurrency and protocol rules.
+
+Q11. What is a cryptographic hash?
+
+A mathematical function that converts input data into a fixed-length output.
+
+Q12. What is a block?
+
+A data structure containing transactions and metadata that is linked to previous blocks.
+
+Q13. What is a Merkle Tree?
+
+A hash-based tree structure used to efficiently verify data integrity.
+
+Q14. What is a DApp?
+
+A Decentralized Application that interacts with blockchain smart contracts or decentralized infrastructure.
+
+Q15. What is Hyperledger?
+
+An open-source ecosystem of enterprise blockchain technologies, including Hyperledger Fabric.
+
+Q16. Difference between Bitcoin and Ethereum?
+
+Bitcoin primarily focuses on peer-to-peer digital currency. Ethereum supports programmable smart contracts and decentralized applications.
+
+Q17. What are NFTs?
+
+Non-Fungible Tokens represent unique digital assets or ownership records on a blockchain.
+
+Q18. What is DeFi?
+
+Decentralized Finance: financial applications built using blockchain and smart contracts.
+
+Q19. What are the advantages of blockchain?
+
+Transparency, shared records, tamper resistance, traceability and programmable transactions.
+
+Q20. What are the limitations of blockchain?
+
+Scalability, transaction costs, privacy challenges, regulatory uncertainty and implementation complexity.
+
+
+
+# SPPU LP3 (410246) – Top 100 Important External Viva Questions with One-Line Answers
+
+Coverage: DAA (5) + Machine Learning (5) + Blockchain Technology (5).
+
+These are selected for practical examinations, including algorithm logic, code-level questions, output, complexity, debugging and tricky cross-questions.
+
+
+
+100 Questions
+
+One-line answers
+
+External viva level
+
+
+
+## Group A – Design and Analysis of Algorithms (Questions 1–35)
+
+### Practical 1: Fibonacci – Recursion and Iteration
+
+1\. What is Fibonacci series? — A sequence in which each number is the sum of the previous two numbers, starting with 0 and 1.
+
+2\. What is recursion? — A function calling itself to solve a smaller instance of a problem.
+
+3\. What is the base condition in your code? — `if(n <= 1) return n;` stops recursive calls.
+
+4\. What is the output of Fibonacci(6)? — 8, because the sequence is 0, 1, 1, 2, 3, 5, 8.
+
+5\. What is the time complexity of recursive Fibonacci? — O(2ⁿ) as an upper bound for naive recursion.
+
+6\. What is the time complexity of iterative Fibonacci? — O(n), because it calculates each term once.
+
+7\. What is the space complexity of recursive Fibonacci? — O(n) due to the recursion call stack.
+
+8\. What is the space complexity of iterative Fibonacci? — O(1), because it uses only three variables.
+
+9\. Why is iterative Fibonacci faster? — It avoids repeated calculations and function-call overhead.
+
+### Practical 2: Huffman Encoding – Greedy
+
+10\. What is Huffman Encoding? — A lossless compression algorithm that assigns variable-length binary codes based on character frequencies.
+
+11\. Who invented Huffman Coding? — David A. Huffman in 1952.
+
+12\. Which algorithmic technique is used? — Greedy Algorithm.
+
+13\. Which data structure is used? — Min-priority queue.
+
+14\. Why do we use a min-priority queue? — To efficiently extract the two nodes with the smallest frequencies.
+
+15\. What is a prefix-free code? — A code in which no complete codeword is the prefix of another codeword.
+
+16\. Why are frequent characters given shorter codes? — To minimize the total weighted encoding length.
+
+17\. What is the time complexity? — O(n log n), where n is the number of distinct characters.
+
+18\. What happens if two characters have equal frequencies? — Multiple valid Huffman trees and code assignments may be possible.
+
+### Practical 3: 0/1 Knapsack – Dynamic Programming
+
+19\. What is the Knapsack Problem? — Selecting items to maximize total value without exceeding the available capacity.
+
+20\. Why is it called 0/1 Knapsack? — Each item is either selected completely or rejected.
+
+21\. Which technique is used? — Dynamic Programming.
+
+22\. What is the recurrence relation? — `DP[i][w] = max(DP[i-1][w], value[i-1] + DP[i-1][w-weight[i-1]])` when the item fits.
+
+23\. What is the base condition? — Zero items or zero capacity gives maximum value zero.
+
+24\. What is the time complexity? — O(nW), where n is the number of items and W is capacity.
+
+25\. What is the space complexity? — O(nW) for the two-dimensional DP table.
+
+26\. Difference between 0/1 and Fractional Knapsack? — 0/1 does not allow partial items; Fractional Knapsack allows partial selection.
+
+27\. Why is `max()` used in the code? — To choose between including and excluding an item.
+
+### Practical 4: N-Queens – Backtracking
+
+28\. What is the N-Queens Problem? — Placing N queens on an N×N chessboard without any two queens attacking each other.
+
+29\. Which technique is used? — Backtracking.
+
+30\. What is backtracking? — Trying a choice, checking its validity and undoing it if it leads to failure.
+
+31\. Why do we check three directions? — To check the same column and both upper diagonals because queens are placed row by row.
+
+32\. What is the base condition? — `row == n` means all queens have been placed successfully.
+
+33\. What does `board[row][col] = 0` do? — It removes a queen when backtracking.
+
+34\. What is the worst-case time complexity? — O(N!) as a commonly used upper bound for row-wise backtracking.
+
+35\. Does your program find all solutions? — No, it stops after finding the first valid solution.
+
+### Practical 5: Quick Sort – Deterministic and Randomized
+
+36\. What is Quick Sort? — A sorting algorithm that partitions elements around a pivot and recursively sorts the partitions.
+
+37\. Which technique does Quick Sort use? — Divide and Conquer.
+
+38\. What is a pivot? — An element used to partition an array into smaller and larger elements.
+
+39\. What is deterministic Quick Sort in your code? — It selects the last element as the pivot.
+
+40\. What is randomized Quick Sort? — It selects a randomly chosen element as the pivot.
+
+41\. What is the average time complexity? — O(n log n).
+
+42\. What is the worst-case time complexity? — O(n²).
+
+43\. When does the worst case occur? — When partitioning repeatedly produces highly unbalanced subarrays.
+
+44\. Is Quick Sort stable? — No, the standard implementation is not stable.
+
+45\. Why do we use `srand(time(0))`? — To initialize the random-number generator with a changing seed.
+
+## Group B – Machine Learning (Questions 46–80)
+
+### Practical 6: Uber Fare Prediction – Linear Regression and Random Forest
+
+46\. What is Machine Learning? — A branch of AI that enables computers to learn patterns from data and make predictions.
+
+47\. What is Regression? — A supervised learning technique used to predict continuous numerical values.
+
+48\. What is the target variable in Uber prediction? — `fare_amount`.
+
+49\. What is Linear Regression? — An algorithm that models a linear relationship between input features and a continuous output.
+
+50\. What is Random Forest Regression? — An ensemble algorithm that combines predictions from multiple decision trees.
+
+51\. What is an outlier? — A data point that significantly differs from the general pattern of the dataset.
+
+52\. What is correlation? — A statistical measure indicating the strength and direction of the relationship between two variables.
+
+53\. What is R² score? — It measures how much variation in the target variable is explained by the regression model.
+
+54\. What is RMSE? — The square root of the average squared prediction error.
+
+### Practical 7: Email Spam Detection – KNN and SVM
+
+55\. What is Classification? — A supervised learning technique that predicts categorical labels.
+
+56\. What is KNN? — An algorithm that classifies a data point using the majority class among its K nearest neighbors.
+
+57\. What is K in KNN? — The number of nearest neighbors considered for prediction.
+
+58\. What is SVM? — Support Vector Machine finds a decision boundary that separates classes with maximum margin.
+
+59\. What are support vectors? — Data points closest to the separating hyperplane.
+
+60\. What is TF-IDF? — A technique that converts text into numerical features based on word importance.
+
+61\. Why is TF-IDF used? — To convert email text into numerical vectors for machine learning.
+
+62\. What is `LinearSVC`? — A linear Support Vector Classification implementation.
+
+### Practical 8: Bank Customer Churn – Neural Network
+
+63\. What is Customer Churn? — When a customer stops using a company's services.
+
+64\. What is ANN? — Artificial Neural Network is a computational model inspired by interconnected biological neurons.
+
+65\. How many hidden layers are in your model? — Two hidden layers containing 16 and 8 neurons.
+
+66\. What is ReLU? — An activation function defined as `max(0,x)`.
+
+67\. What is Sigmoid? — An activation function that converts an output into a value between 0 and 1.
+
+68\. Why is Sigmoid used in the output layer? — To produce a probability for binary classification.
+
+69\. What is an epoch? — One complete pass through the training dataset.
+
+70\. What is batch size in your code? — 32 samples are processed before each weight update.
+
+71\. Which optimizer is used? — Adam optimizer, which adaptively updates neural network weights.
+
+72\. Which loss function is used? — Binary Cross-Entropy for binary classification.
+
+### Practical 9: Diabetes Prediction – KNN
+
+73\. What is the target variable? — `diabetes`, representing the diabetes class.
+
+74\. Why is StandardScaler used? — To standardize features because KNN depends on distance calculations.
+
+75\. What is Euclidean Distance? — The straight-line distance between two points in multidimensional space.
+
+76\. What is the K value in your code? — K = 5.
+
+77\. What is a confusion matrix? — A table showing correct and incorrect classification predictions.
+
+78\. What is Precision? — The proportion of predicted positive cases that are actually positive: TP/(TP+FP).
+
+79\. What is Recall? — The proportion of actual positive cases correctly identified: TP/(TP+FN).
+
+### Practical 10: Sales Data Clustering – K-Means and Hierarchical Clustering
+
+80\. What is the difference between K-Means and Hierarchical Clustering? — K-Means uses centroids and predefined K, whereas Hierarchical Clustering builds a hierarchy of clusters.
+
+## Group C – Blockchain Technology (Questions 81–100)
+
+### Practical 11: MetaMask and Ether Transaction Fees
+
+81\. What is Blockchain? — A distributed digital ledger that records transactions in cryptographically linked blocks.
+
+82\. What is MetaMask? — A cryptocurrency wallet used to manage blockchain accounts and interact with decentralized applications.
+
+83\. What is Ethereum? — A blockchain platform that supports smart contracts and decentralized applications.
+
+84\. What is Ether? — ETH is the native cryptocurrency of the Ethereum blockchain.
+
+85\. What is Gas? — A unit measuring the computational work required to execute Ethereum transactions.
+
+86\. How is the transaction fee calculated? — `Gas Used × Effective Gas Price`.
+
+87\. What is Gwei? — A denomination of Ether; 1 ETH equals 10⁹ Gwei.
+
+88\. What is a testnet? — A blockchain network used for development and testing without real-value cryptocurrency.
+
+### Practical 12: Create Wallet and Perform Transactions
+
+89\. What is a private key? — A secret cryptographic key used to authorize blockchain transactions.
+
+90\. What is a public address? — A publicly shareable identifier used to receive cryptocurrency.
+
+91\. What is a transaction hash? — A unique hash identifier used to identify a blockchain transaction.
+
+92\. What is a block explorer? — A tool used to inspect blockchain transactions, addresses and blocks.
+
+93\. What is a nonce in Ethereum? — A sequential transaction counter associated with an externally owned account.
+
+### Practical 13: Bank Account Smart Contract
+
+94\. What is a Smart Contract? — A blockchain-deployed program that executes according to predefined conditions.
+
+95\. What is Solidity? — A programming language used to write Ethereum smart contracts.
+
+96\. What is `msg.sender`? — The address that called the current smart contract function.
+
+97\. What is `msg.value`? — The amount of Ether sent with a transaction, measured in Wei.
+
+### Practical 14: Student Data Smart Contract
+
+98\. What is a Structure in Solidity? — A user-defined data type that groups different variables into one record.
+
+99\. What is the difference between Fallback and Receive? — Receive handles empty-calldata Ether transfers; fallback handles unmatched function calls and certain Ether transfers.
+
+### Practical 15: Blockchain Survey
+
+100\. What are the four major types of Blockchain? — Public, Private, Consortium and Hybrid Blockchain.
+
+# 8. Last-minute revision – Must remember
+
+| Practical        | Most important answer               |
+| ---------------- | ----------------------------------- |
+| Fibonacci        | Recursive O(2ⁿ), iterative O(n)     |
+| Huffman          | Greedy, O(n log n)                  |
+| 0/1 Knapsack     | DP, O(nW)                           |
+| N-Queens         | Backtracking                        |
+| Quick Sort       | Average O(n log n), worst O(n²)     |
+| Uber             | Regression, R², RMSE                |
+| Spam             | KNN, SVM, TF-IDF                    |
+| Churn            | ANN, ReLU, Sigmoid, Adam            |
+| Diabetes         | KNN, confusion matrix               |
+| Sales            | K-Means, elbow method               |
+| MetaMask         | Wallet, ETH, Gas                    |
+| Wallet           | Private key, public address         |
+| Bank contract    | Solidity, payable, require          |
+| Student contract | Struct, Array, Fallback             |
+| Survey           | Public, Private, Consortium, Hybrid |
