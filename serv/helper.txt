@@ -1,0 +1,1467 @@
+Group A — Design and Analysis of Algorithms (DAA)
+P1 — Fibonacci using Recursion and Iteration
+File: P1.cpp
+What does the program do?
+It calculates the nth Fibonacci number using two methods:
+- Recursive approach: calls the same function repeatedly.
+- Iterative approach: calculates the result using a loop.
+The Fibonacci sequence is:
+
+0, 1, 1, 2, 3, 5, 8, 13, 21 ...
+
+Each number is the sum of the previous two numbers.
+Function-by-function explanation
+1. fibonacciRecursive(int n)
+
+Purpose: Calculate the nth Fibonacci number using recursion.
+
+How it works:
+1. Checks whether n <= 1.
+2. If true, returns n (base condition).
+3. Otherwise, calls itself with n-1 and n-2.
+4. Adds both returned values.
+return fibonacciRecursive(n - 1) +
+       fibonacciRecursive(n - 2);
+
+
+Example: fibonacciRecursive(4)
+fib(4)
+= fib(3) + fib(2)
+= 2 + 1
+= 3
+
+
+2. fibonacciIterative(int n)
+
+Purpose: Calculate the nth Fibonacci number without recursion.
+
+How it works:
+1. Returns n if n <= 1.
+2. Initializes a = 0 and b = 1.
+3. Uses a loop from i = 2 to n.
+4. Calculates c = a + b.
+5. Updates a = b and b = c.
+6. Returns b.
+3. main()
+
+Purpose: Control the program.
+- Accepts the value of n.
+- Rejects negative input.
+- Calls both Fibonacci functions.
+- Displays both results.
+Function summary
+Function	Purpose
+fibonacciRecursive()	Calculates Fibonacci using recursion
+fibonacciIterative()	Calculates Fibonacci using a loop
+main()	Takes input and displays results
+
+Complexity
+Method	Time	Auxiliary space
+Recursive	O(2ⁿ) upper bound	O(n)
+Iterative	O(n)	O(1)
+
+Viva point
+ The iterative approach is more efficient because it avoids repeated calculations.
+
+P2 — Huffman Encoding using Greedy Strategy
+File: P2.cpp
+What does the program do?
+Huffman Encoding is a lossless data compression algorithm.
+
+It assigns:
+- Short binary codes to frequently occurring characters.
+- Longer binary codes to less frequently occurring characters.
+For example, a character appearing 50 times should generally receive a shorter code than a character appearing once.
+Important data structures
+1. struct Node
+
+Represents a node of the Huffman tree.
+
+It stores:
+Variable	Purpose
+ch	Character
+freq	Character frequency
+left	Pointer to left child
+right	Pointer to right child
+
+2. struct Compare
+
+Used by the priority queue to arrange nodes by frequency.
+bool operator()(Node* a, Node* b) {
+    return a->freq > b->freq;
+}
+
+
+This makes the priority queue behave like a min-priority queue: the node with the smallest frequency is selected first.
+Function-by-function explanation
+1. Node(char character, int frequency)
+
+This is the constructor of the Node structure.
+- Assigns the character.
+- Assigns its frequency.
+- Initializes left and right pointers to nullptr.
+2. operator()(Node* a, Node* b)
+
+Purpose: Compare two nodes.
+
+Returns true when node a has a higher frequency than node b, allowing the priority queue to select the minimum-frequency node first.
+
+3. generateCodes(Node* root, string code, unordered_map<char, string>& huffmanCode)
+
+Purpose: Generate binary Huffman codes by traversing the tree.
+
+How it works:
+1. If the root is null, return.
+2. If the node is a leaf, store its code.
+3. Traverse the left child by adding 0.
+4. Traverse the right child by adding 1.
+generateCodes(root->left, code + "0", huffmanCode);
+generateCodes(root->right, code + "1", huffmanCode);
+
+
+4. printCodes(const unordered_map<char, string>& huffmanCode)
+
+Purpose: Display each character and its generated Huffman code.
+
+It iterates through the map and prints character-code pairs.
+
+5. encode(const string& text, const unordered_map<char, string>& huffmanCode)
+
+Purpose: Convert the original input string into a binary encoded string.
+
+How it works:
+1. Creates an empty string called encoded.
+2. Visits each character in the original text.
+3. Finds its corresponding Huffman code.
+4. Appends that code to the encoded string.
+5. Returns the final encoded string.
+6. main()
+
+Purpose: Execute the complete Huffman encoding process.
+
+Steps:
+1. Accept the input string.
+2. Count the frequency of each character.
+3. Create a priority queue.
+4. Insert a node for each character.
+5. Repeatedly remove the two minimum-frequency nodes.
+6. Combine them into a new parent node.
+7. Insert the parent back into the queue.
+8. Generate Huffman codes.
+9. Encode the original string.
+10. Display original and encoded sizes.
+Function summary
+Function / Structure	Purpose
+Node()	Initializes a Huffman tree node
+operator()()	Compares node frequencies
+generateCodes()	Generates binary codes
+printCodes()	Displays generated codes
+encode()	Encodes the input string
+main()	Controls the complete algorithm
+
+Complexity
+For \(k\) distinct characters:
+- Time: O(k log k)
+- Space: O(k) for the tree and code structures, excluding the encoded output.
+Code issue
+ If the input contains only one distinct character, generateCodes() assigns an empty string as its code. A robust implementation should assign that character a code such as 0.
+
+P3 — 0/1 Knapsack using Dynamic Programming
+File: P3.cpp
+What does the program do?
+The Knapsack problem selects items to maximize total value without exceeding the available weight capacity.
+
+Each item has:
+- Weight
+- Value
+0/1 means: An item can either be selected once or not selected at all. It cannot be selected multiple times.
+
+Example:
+Item	Weight	Value
+1	2	10
+2	3	20
+3	4	30
+
+If capacity is 5, the best selection is items 1 and 2, with total value 30.
+Function-by-function explanation
+This program does not define separate user-defined functions. The complete algorithm is implemented inside main().
+
+1. Input section
+cin >> n;
+
+
+Accepts the number of items.
+
+Then it reads:
+- Item weights into weight.
+- Item values into value.
+- Knapsack capacity.
+2. DP table creation
+vector<vector<int>> dp(
+    n + 1,
+    vector<int>(capacity + 1, 0)
+);
+
+
+Creates a two-dimensional dynamic programming table.
+
+Meaning:
+- Rows represent the number of items considered.
+- Columns represent the available capacity.
+- dp[i][w] represents the maximum value achievable using the first i items with capacity w.
+3. DP table construction
+
+The outer loop processes each item.
+
+The inner loop checks every possible capacity.
+
+First, it assumes the item is excluded:
+dp[i][w] = dp[i - 1][w];
+
+
+Then, if the item fits, it checks whether including it gives a better result:
+dp[i][w] = max(
+    dp[i][w],
+    value[i - 1] +
+    dp[i - 1][w - weight[i - 1]]
+);
+
+
+This is the central recurrence:
+\[
+DP[i][w] =
+\max(DP[i-1][w],\ value_i+DP[i-1][w-weight_i])
+\]
+
+The inclusion option is considered only when the item fits.
+
+4. Maximum value
+dp[n][capacity]
+
+
+Displays the maximum achievable value using all items within the given capacity.
+
+5. Selected item identification
+
+The program moves backwards through the DP table.
+if (dp[i][w] != dp[i - 1][w])
+
+
+If the value changes, item i was selected.
+
+It prints the item number and subtracts its weight from the remaining capacity.
+Function summary
+Function	Purpose
+main()	Reads input, builds DP table, calculates maximum value and identifies selected items
+
+Complexity
+- Time: O(n × W)
+- Space: O(n × W)
+Here, n is the number of items and W is the capacity.
+
+Viva point
+ Dynamic Programming avoids recalculating the same subproblems by storing previously calculated results.
+
+P4 — N-Queens using Backtracking
+File: P4.cpp
+What does the program do?
+The N-Queens problem places N queens on an N × N chessboard so that no two queens attack each other.
+
+A queen can attack:
+- Horizontally
+- Vertically
+- Diagonally
+This program places the first queen at a user-specified column in the first row, then tries to place the remaining queens.
+Function-by-function explanation
+1. isSafe(vector<vector<int>>& board, int row, int col)
+
+Purpose: Check whether a queen can safely be placed at a given position.
+
+It checks three directions:
+- Same column: checks whether another queen is above.
+- Left diagonal: checks the upper-left diagonal.
+- Right diagonal: checks the upper-right diagonal.
+If any queen is found, it returns false.
+
+Otherwise, it returns true.
+
+Why does it only check upwards? Because the algorithm places queens row by row, so all previously placed queens are in earlier rows.
+
+2. solve(vector<vector<int>>& board, int row)
+
+Purpose: Place queens recursively using backtracking.
+
+How it works:
+1. If row == n, all queens have been placed, so return true.
+2. Try each column in the current row.
+3. Call isSafe() to check the position.
+4. If safe, place a queen by setting board[row][col] = 1.
+5. Recursively solve the next row.
+6. If the recursive call fails, remove the queen and try another column.
+board[row][col] = 0;
+
+
+This is the backtracking step.
+
+3. main()
+
+Purpose:
+- Accepts board size N.
+- Creates an N × N matrix initialized with zeros.
+- Accepts the first queen's column.
+- Places the first queen in row 0.
+- Calls solve(board, 1).
+- Displays the solution if one exists.
+Function summary
+Function	Purpose
+isSafe()	Checks whether a queen can be placed safely
+solve()	Places queens recursively using backtracking
+main()	Creates the board, places the first queen and displays the result
+
+Complexity
+- Worst-case time: commonly expressed as O(N!)
+- Board space: O(N²)
+- Recursion stack: O(N)
+Code issue
+ The program does not validate N or firstCol. Invalid input can cause an out-of-bounds access. It also returns only the first solution, not all possible solutions.
+
+P5 — Deterministic and Randomized Quick Sort
+File: P5.cpp
+What does the program do?
+It compares two variations of Quick Sort:
+1. Deterministic Quick Sort: always selects the last element as pivot.
+2. Randomized Quick Sort: selects a random element as pivot.
+Both algorithms sort the array in ascending order. The program also measures their execution time.
+Function-by-function explanation
+1. partitionDeterministic(vector<int>& arr, int low, int high)
+
+Purpose: Partition the array using the last element as pivot.
+
+How it works:
+1. Selects arr[high] as pivot.
+2. Initializes i = low - 1.
+3. Iterates from low to high - 1.
+4. If an element is smaller than or equal to the pivot, moves it to the left partition.
+5. Places the pivot in its correct sorted position.
+6. Returns the pivot index.
+After partitioning:
+Elements <= Pivot | Pivot | Elements > Pivot
+
+
+2. quickSortDeterministic(vector<int>& arr, int low, int high)
+
+Purpose: Sort the array using deterministic Quick Sort.
+
+How it works:
+1. Checks whether low < high.
+2. Calls partitionDeterministic().
+3. Recursively sorts the left subarray.
+4. Recursively sorts the right subarray.
+3. partitionRandomized(vector<int>& arr, int low, int high)
+
+Purpose: Partition the array using a randomly selected pivot.
+
+How it works:
+1. Generates a random index.
+2. Swaps the random element with the last element.
+3. Uses the last element as the pivot.
+4. Performs the same partitioning procedure.
+5. Returns the final pivot index.
+The random index is generated using:
+low + rand() % (high - low + 1);
+
+
+4. quickSortRandomized(vector<int>& arr, int low, int high)
+
+Purpose: Sort the array using randomized Quick Sort.
+
+It follows the same recursive procedure as deterministic Quick Sort, but uses partitionRandomized().
+
+5. displayArray(const vector<int>& arr)
+
+Purpose: Display all array elements.
+
+It uses a range-based for loop to print each element.
+
+6. main()
+
+Purpose: Run and compare both sorting algorithms.
+
+Steps:
+1. Initializes the random number generator using srand(time(0)).
+2. Accepts array size and elements.
+3. Creates two copies of the original array.
+4. Starts the timer for deterministic Quick Sort.
+5. Sorts the first array.
+6. Stops the timer.
+7. Repeats the same process for randomized Quick Sort.
+8. Displays both sorted arrays.
+9. Displays execution times in microseconds.
+Function summary
+Function	Purpose
+partitionDeterministic()	Partitions using the last element as pivot
+quickSortDeterministic()	Performs deterministic Quick Sort
+partitionRandomized()	Partitions using a random pivot
+quickSortRandomized()	Performs randomized Quick Sort
+displayArray()	Displays array elements
+main()	Runs both algorithms and compares execution time
+
+Complexity
+Case	Quick Sort
+Best	O(n log n)
+Average	O(n log n)
+Worst	O(n²)
+
+- Average recursion space: O(log n)
+- Worst recursion space: O(n)
+Important: Randomized Quick Sort reduces the likelihood of repeatedly choosing a poor pivot. It does not eliminate the O(n²) worst case.
+
+Group B — Machine Learning (ML)
+For P6–P10, the ZIP contains Jupyter notebooks. These notebooks mostly use library functions rather than defining their own functions.
+
+You should understand the purpose of each notebook cell, the ML model, preprocessing operations and evaluation functions.
+P6 — Uber Fare Prediction
+File: P6.ipynb
+
+
+
+
+
+
+
+diegohurtadoo.medium.com
+
+
+What does the program do?
+It predicts taxi fares using historical Uber ride data.
+
+It implements and compares:
+- Linear Regression
+- Random Forest Regression
+Target variable: fare_amount
+Step-by-step explanation
+1. Import libraries
+Library	Purpose
+Pandas	Data manipulation
+NumPy	Numerical calculations
+Matplotlib	Data visualization
+Seaborn	Statistical visualization
+Scikit-learn	Machine learning
+
+2. Load dataset
+df = pd.read_csv('/content/uber.csv')
+
+
+
+Reads the Uber dataset into a DataFrame.
+
+3. Inspect dataset
+
+The notebook uses:
+Function	Purpose
+df.shape	Shows rows and columns
+df.head()	Displays first five records
+df.info()	Displays data types and non-null counts
+df.isnull().sum()	Counts missing values
+df.describe()	Shows statistical summary
+
+4. Data cleaning
+df.drop(columns=["Unnamed: 0"], errors="ignore", inplace=True)df.dropna(inplace=True)
+
+
+
+- Removes the unnecessary index column if present.
+- Removes rows containing missing values.
+5. Date-time conversion
+pd.to_datetime(df["pickup_datetime"], utc=True)
+
+
+
+Converts pickup time into a datetime format.
+
+The notebook extracts:
+- Hour
+- Day
+- Month
+- Year
+- Day of week
+It then removes pickup_datetime and key.
+
+6. Data filtering
+
+The program removes invalid records:
+- Fare must be greater than zero.
+- Passenger count must be between 1 and 6.
+- Latitude must be between -90 and 90.
+- Longitude must be between -180 and 180.
+7. Feature and target separation
+X = df.drop(columns=["fare_amount"])y = df["fare_amount"]
+
+
+
+- X: Input features such as coordinates, passenger count and time.
+- y: Fare amount to predict.
+8. Train-test split
+train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+
+Divides the dataset:
+- 80% training data.
+- 20% testing data.
+9. Model creation
+lr = LinearRegression()rf = RandomForestRegressor(    n_estimators=100,    random_state=42,    n_jobs=-1)
+
+
+
+- Linear Regression learns a linear relationship.
+- Random Forest uses multiple decision trees and combines their predictions.
+10. Model training
+lr.fit(X_train, y_train)rf.fit(X_train, y_train)
+
+
+
+Trains both models using training data.
+
+11. Prediction
+lr.predict(X_test)rf.predict(X_test)
+
+
+
+Predicts fare amounts for test records.
+
+12. Model evaluation
+Function	Purpose
+mean_absolute_error()	Calculates average absolute prediction error
+mean_squared_error()	Calculates average squared error
+np.sqrt()	Converts MSE into RMSE
+r2_score()	Measures how well the model explains target variation
+
+Function summary
+Function	Purpose
+pd.read_csv()	Reads dataset
+df.drop()	Removes columns
+df.dropna()	Removes missing records
+pd.to_datetime()	Converts date-time
+train_test_split()	Divides data
+LinearRegression()	Creates regression model
+RandomForestRegressor()	Creates Random Forest model
+fit()	Trains model
+predict()	Predicts fare
+mean_absolute_error()	Calculates MAE
+mean_squared_error()	Calculates MSE
+r2_score()	Calculates R²
+
+Syllabus gap
+ The notebook imports StandardScaler but does not use it. It also does not implement an explicit IQR outlier-detection step or correlation matrix, despite those being useful parts of the broader data-analysis workflow.
+
+P7 — Email Spam Classification
+File: P7.ipynb
+
+
+
+
+
+
+
+tandfonline.com
+
+
+What does the program do?
+It classifies emails into two categories:
+- Spam
+- Not Spam (Ham)
+It compares:
+1. K-Nearest Neighbors (KNN)
+2. Support Vector Machine (SVM)
+Step-by-step explanation
+1. Load dataset
+df = pd.read_csv('/content/emails.csv')
+
+
+
+Loads the email dataset.
+
+2. Data cleaning
+df.dropna()df.drop_duplicates()
+
+
+
+- Removes missing records.
+- Removes duplicate emails.
+3. Check class distribution
+df["spam"].value_counts()
+
+
+
+Displays the number of spam and non-spam emails.
+
+4. Separate input and output
+X = df["text"]y = df["spam"]
+
+
+
+- X contains email text.
+- y contains the spam label.
+5. Split dataset
+train_test_split(    X, y,    test_size=0.2,    random_state=2,    stratify=df["spam"])
+
+
+
+Uses 80% training and 20% testing data.
+
+stratify maintains approximately the same spam/non-spam class proportions in both sets.
+
+6. TF-IDF vectorization
+tfidf = TfidfVectorizer(    stop_words="english",    max_features=5000)
+
+
+
+Converts text into numerical features.
+
+TF-IDF stands for Term Frequency–Inverse Document Frequency.
+
+It gives importance to words based on their frequency in a document and their rarity across documents.
+tfidf.fit_transform(X_train)tfidf.transform(X_test)
+
+
+
+- fit_transform() learns the vocabulary and transforms training data.
+- transform() applies the same learned vocabulary to test data.
+7. Create models
+knn = KNeighborsClassifier(n_neighbors=5)svm = LinearSVC(random_state=42)
+
+
+
+- KNN classifies an email based on nearby training examples.
+- SVM finds a decision boundary that separates spam and non-spam emails.
+8. Train models
+knn.fit(X_train_vec, y_train)svm.fit(X_train_vec, y_train)
+
+
+
+Trains both models.
+
+9. Predict and evaluate
+model.predict(X_test_vec)
+
+
+
+Predicts spam or non-spam labels.
+Function	Purpose
+accuracy_score()	Calculates prediction accuracy
+classification_report()	Displays precision, recall and F1-score
+
+Function summary
+Function	Purpose
+pd.read_csv()	Reads email dataset
+dropna()	Removes missing values
+drop_duplicates()	Removes duplicate records
+value_counts()	Counts spam and ham
+train_test_split()	Splits data
+TfidfVectorizer()	Converts text to numerical features
+fit_transform()	Learns vocabulary and transforms training text
+transform()	Transforms testing text
+KNeighborsClassifier()	Creates KNN classifier
+LinearSVC()	Creates SVM classifier
+fit()	Trains model
+predict()	Predicts class
+accuracy_score()	Measures accuracy
+classification_report()	Displays classification metrics
+
+
+P8 — Bank Customer Churn Prediction using ANN
+File: P8.ipynb
+
+
+
+
+
+
+
+datacamp.com
+
+
+What does the program do?
+Predicts whether a bank customer will leave the bank.
+
+This is a binary classification problem.
+- 0: Customer stays.
+- 1: Customer leaves (churn).
+It uses an Artificial Neural Network (ANN).
+Step-by-step explanation
+1. Load dataset
+df = pd.read_csv('/content/Bank Customer Churn Prediction.csv')
+
+
+
+Loads customer records.
+
+2. Remove unnecessary column
+df.drop(columns=["customer_id"], inplace=True, errors="ignore")
+
+
+
+Removes the customer ID because it is not useful as a predictive feature.
+
+3. Categorical encoding
+pd.get_dummies(    df,    columns=["country", "gender"],    drop_first=True,    dtype=int)
+
+
+
+Converts categorical columns into numerical columns.
+
+This process is called One-Hot Encoding.
+
+drop_first=True removes one category from each encoded group to avoid redundant dummy variables.
+
+4. Separate features and target
+X = df.drop("churn", axis=1)y = df["churn"]
+
+
+
+- X: Customer information.
+- y: Churn result.
+5. Split dataset
+
+80% training and 20% testing data, using stratification.
+
+6. Feature scaling
+scaler = StandardScaler()
+
+
+
+The notebook uses:
+scaler.fit_transform(X_train)scaler.transform(X_test)
+
+
+
+StandardScaler standardizes numerical features.
+
+It uses the training data's mean and standard deviation:
+\[
+z = \frac{x-\mu}{\sigma}
+\]
+
+7. ANN architecture
+model = Sequential([    Input(shape=(X_train.shape[1],)),    Dense(16, activation='relu'),    Dense(8, activation='relu'),    Dense(1, activation='sigmoid')])
+
+
+
+The neural network contains:
+Layer	Description
+Input	Receives customer features
+Dense(16)	First hidden layer with 16 neurons
+Dense(8)	Second hidden layer with 8 neurons
+Dense(1)	Output layer with one neuron
+
+Activation functions:
+- ReLU: Used in hidden layers.
+- Sigmoid: Converts the output into a probability between 0 and 1.
+8. Compile model
+model.compile(    optimizer="adam",    loss="binary_crossentropy",    metrics=["accuracy"])
+
+
+
+- Adam: Optimizes model weights.
+- Binary Crossentropy: Loss function for binary classification.
+- Accuracy: Tracks correct predictions.
+9. Train model
+model.fit(    X_train,    y_train,    epochs=20,    batch_size=32,    validation_split=0.2)
+
+
+
+- Epochs = 20: The training data is processed up to 20 times.
+- Batch size = 32: The model processes 32 samples per batch.
+- Validation split = 0.2: Uses 20% of the training data for validation.
+10. Prediction
+y_prob = model.predict(X_test)
+
+
+
+Returns predicted probabilities.
+y_pred = (y_prob >= 0.5).astype(int).ravel()
+
+
+
+Converts probabilities into class labels using a threshold of 0.5.
+
+11. Evaluation
+- accuracy_score(): Accuracy.
+- confusion_matrix(): Correct and incorrect predictions.
+- classification_report(): Precision, recall and F1-score.
+Function summary
+Function	Purpose
+pd.read_csv()	Loads dataset
+pd.get_dummies()	Converts categories into numerical values
+train_test_split()	Splits data
+StandardScaler()	Creates scaler
+fit_transform()	Learns scaling parameters and transforms training data
+transform()	Scales test data
+Sequential()	Creates ANN model
+Input()	Defines input shape
+Dense()	Creates neural network layer
+compile()	Configures model training
+fit()	Trains ANN
+predict()	Predicts probabilities
+astype()	Converts predictions to integer labels
+ravel()	Flattens prediction array
+accuracy_score()	Calculates accuracy
+confusion_matrix()	Evaluates prediction counts
+classification_report()	Displays classification metrics
+
+
+P9 — Diabetes Prediction using KNN
+File: P9.ipynb
+
+
+
+
+
+
+
+medium.com
+
+
+What does the program do?
+Predicts whether a person has diabetes based on input features such as:
+- Gender
+- Age
+- Hypertension
+- Heart disease
+- Smoking history
+- BMI
+- HbA1c level
+- Blood glucose level
+It uses K-Nearest Neighbors (KNN).
+Step-by-step explanation
+1. Load dataset
+df = pd.read_csv('/content/diabetes_prediction_dataset.csv')
+
+
+
+Loads the diabetes dataset.
+
+2. Encode categorical data
+pd.get_dummies(    df,    columns=["gender", "smoking_history"],    drop_first=True,    dtype=int)
+
+
+
+Converts categorical columns into numerical values.
+
+3. Separate features and target
+X = df.drop("diabetes", axis=1)y = df["diabetes"]
+
+
+
+- X: Input medical and demographic features.
+- y: Diabetes result.
+4. Train-test split
+train_test_split(    X, y,    test_size=0.2,    random_state=42,    stratify=y)
+
+
+
+Divides data into 80% training and 20% testing.
+
+5. Feature scaling
+scaler = StandardScaler()
+
+
+
+Standardizes features because KNN is distance-based.
+
+Without scaling, a feature with a large numerical range could dominate distance calculations.
+
+6. Create KNN model
+knn = KNeighborsClassifier(n_neighbors=5)
+
+
+
+Creates a KNN classifier with K = 5.
+
+7. Train model
+knn.fit(X_train, y_train)
+
+
+
+Stores the training examples for neighbor-based classification.
+
+8. Prediction
+y_pred = knn.predict(X_test)
+
+
+
+Predicts the diabetes class for test records.
+
+9. Evaluation
+
+Uses:
+- Accuracy
+- Confusion matrix
+- Classification report
+Function summary
+Function	Purpose
+pd.read_csv()	Reads dataset
+pd.get_dummies()	Encodes categorical data
+train_test_split()	Divides dataset
+StandardScaler()	Creates scaler
+fit_transform()	Scales training data
+transform()	Scales testing data
+KNeighborsClassifier()	Creates KNN model
+fit()	Trains/stores training examples
+predict()	Predicts diabetes class
+accuracy_score()	Calculates accuracy
+confusion_matrix()	Displays prediction results
+classification_report()	Displays precision, recall and F1-score
+
+Viva point: K = 5 means the algorithm considers the five nearest training samples to classify a new sample.
+
+P10 — Sales Data Clustering using K-Means and Hierarchical Clustering
+File: P10.ipynb
+
+
+
+
+
+
+
+stratascratch.com
+
+
+
+
+
+
+
+
+
+datasklr.com
+
+
+What does the program do?
+Groups sales records into clusters based on similarities.
+
+It uses two unsupervised learning algorithms:
+1. K-Means Clustering.
+2. Agglomerative Hierarchical Clustering.
+Features used:
+- Sales Amount
+- Quantity Sold
+- Unit Cost
+- Unit Price
+- Discount
+Step-by-step explanation
+1. Load dataset
+df = pd.read_csv('/content/sales_data.csv')
+
+
+
+Loads the sales dataset.
+
+2. Select features
+features = [    "Sales_Amount",    "Quantity_Sold",    "Unit_Cost",    "Unit_Price",    "Discount"]
+
+
+
+Selects the columns used for clustering.
+
+3. Remove missing values
+X = df[features].dropna()
+
+
+
+Removes rows with missing feature values.
+
+4. Standardize features
+scaler = StandardScaler()X_scaled = scaler.fit_transform(X)
+
+
+
+Scales all features to comparable ranges.
+
+5. K-Means model
+kmeans = KMeans(    n_clusters=3,    random_state=42,    n_init=10)
+
+
+
+Creates three clusters.
+
+Important parameters:
+- n_clusters=3: Creates three clusters.
+- random_state=42: Makes initialization reproducible.
+- n_init=10: Runs the algorithm with 10 initial centroid configurations.
+6. Assign clusters
+kmeans.fit_predict(X_scaled)
+
+
+
+Performs clustering and returns a cluster label for each record.
+
+7. Visualize clusters
+plt.scatter(...)
+
+
+
+Displays sales amount against quantity sold, with points colored according to their K-Means cluster.
+
+8. Hierarchical clustering
+hierarchical = AgglomerativeClustering(n_clusters=3)
+
+
+
+Creates an agglomerative clustering model.
+
+Agglomerative clustering works bottom-up:
+1. Each data point starts as an individual cluster.
+2. The closest clusters are merged.
+3. Merging continues until the requested number of clusters remains.
+9. Dendrogram
+Z = linkage(X_scaled, method="ward")
+
+
+
+Creates the hierarchical linkage information.
+
+Ward linkage merges clusters in a way that minimizes the increase in within-cluster variance.
+dendrogram(Z, truncate_mode="lastp", p=30)
+
+
+
+Displays a dendrogram showing the hierarchy of clusters.
+
+10. Final result
+
+Displays the first ten records with their K-Means and hierarchical cluster labels.
+Function summary
+Function	Purpose
+pd.read_csv()	Loads dataset
+dropna()	Removes missing values
+StandardScaler()	Creates scaler
+fit_transform()	Scales features
+KMeans()	Creates K-Means model
+fit_predict()	Trains and assigns cluster labels
+plt.scatter()	Visualizes clusters
+AgglomerativeClustering()	Creates hierarchical clustering model
+linkage()	Calculates hierarchical relationships
+dendrogram()	Displays hierarchical structure
+plt.show()	Displays plot
+
+Important practical issue
+ The notebook fixes the number of clusters at 3. It does not implement the elbow method, even though the elbow method is an important syllabus concept. Also, the K-Means and scatter-plot cells are repeated in the notebook.
+
+Group C — Blockchain Technology
+P11 — MetaMask Wallet Creation and Ether Transaction
+File: P11.md
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+What does the practical do?
+Creates a cryptocurrency wallet using MetaMask and transfers test Ether between two accounts on the Sepolia test network.
+Practical procedure
+1. Install MetaMask from its official website.
+2. Create a new wallet.
+3. Set a wallet password.
+4. Securely store the Secret Recovery Phrase.
+5. Copy the public wallet address.
+6. Enable the Sepolia test network.
+7. Obtain test ETH from a faucet.
+8. Create a second account.
+9. Send test ETH from the first account to the second.
+10. Confirm the transaction.
+11. Copy the transaction hash.
+12. Verify the transaction on a Sepolia block explorer.
+Important functions and terms
+Term	Purpose
+MetaMask	Cryptocurrency wallet
+Wallet address	Public account identifier
+Private key	Authorizes transactions
+Secret Recovery Phrase	Recovers wallet access
+Sepolia	Ethereum test network
+Faucet	Provides test ETH
+Transaction hash	Unique transaction identifier
+Block explorer	Displays blockchain transactions
+Gas fee	Fee paid for executing a transaction
+
+Transaction flow
+Sender Wallet
+      |
+      v
+Enter Receiver Address
+      |
+      v
+Enter ETH Amount
+      |
+      v
+Calculate Network Fee
+      |
+      v
+Confirm Transaction
+      |
+      v
+Transaction Broadcast
+      |
+      v
+Blockchain Validation
+      |
+      v
+Receiver Gets ETH
+
+
+Important: Sepolia ETH is test currency. It does not represent real money.
+
+Security point: Never share your private key or Secret Recovery Phrase.
+
+P12 — Bank Account Smart Contract
+File: P12.md
+What does the practical do?
+Creates a Solidity smart contract that supports:
+1. Depositing Ether.
+2. Withdrawing Ether.
+3. Displaying the contract's balance.
+Code explanation
+The contract provided in the ZIP is:
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract BankAccount {
+
+    address public owner;
+    uint256 private balance;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function deposit() public payable {
+        require(msg.value > 0, "Deposit amount must be greater than 0");
+        balance += msg.value;
+    }
+
+    function withdraw(uint256 amount) public {
+        require(msg.sender == owner, "Only account owner can withdraw");
+        require(amount > 0, "Amount must be greater than 0");
+        require(amount <= balance, "Insufficient balance");
+
+        balance -= amount;
+        payable(owner).transfer(amount);
+    }
+
+    function showBalance() public view returns (uint256) {
+        return balance;
+    }
+}
+
+
+Function-by-function explanation
+1. constructor()
+
+Purpose: Initialize the contract.
+owner = msg.sender;
+
+
+Stores the address of the person deploying the contract.
+
+The constructor executes only once during deployment.
+
+2. deposit()
+
+Purpose: Deposit Ether into the contract.
+function deposit() public payable
+
+
+- public: Can be called externally.
+- payable: Allows Ether to be sent with the function call.
+- msg.value: Amount of Ether received, expressed in Wei.
+The require() condition rejects a zero-value deposit.
+
+Then:
+balance += msg.value;
+
+
+Updates the internal balance.
+
+3. withdraw(uint256 amount)
+
+Purpose: Withdraw Ether from the contract.
+
+It checks three conditions:
+require(msg.sender == owner, ...);
+require(amount > 0, ...);
+require(amount <= balance, ...);
+
+
+These ensure:
+- Only the owner can withdraw.
+- Withdrawal amount must be positive.
+- Sufficient balance must be available.
+Then it subtracts the amount and transfers Ether to the owner.
+
+4. showBalance()
+
+Purpose: Return the stored balance.
+function showBalance() public view returns (uint256)
+
+
+- view: Reads contract state without modifying it.
+- returns (uint256): Returns an unsigned integer.
+The returned amount is in Wei, not automatically ETH.
+Function summary
+Function / Variable	Purpose
+constructor()	Stores contract owner's address
+deposit()	Receives Ether
+withdraw()	Transfers Ether to owner
+showBalance()	Returns internal balance
+owner	Stores owner's wallet address
+balance	Stores the contract's internal balance
+
+Important Solidity concepts
+Keyword	Meaning
+address	Stores an Ethereum address
+uint256	Unsigned 256-bit integer
+public	Allows external access
+private	Restricts direct access
+payable	Allows Ether transfers
+msg.sender	Address calling the function
+msg.value	Ether sent with the call
+require()	Checks conditions
+view	Reads data without modifying state
+transfer()	Sends Ether to an address
+
+Unit conversion:
+\[
+1\ ETH = 10^{18}\ Wei
+\]
+
+Example:
+
+0.01 ETH = 10000000000000000 Wei
+
+Practical execution: Remix IDE → compile contract → connect MetaMask → deploy to Sepolia → deposit → show balance → withdraw.
+
+P13 — Student Data using Solidity Structure and Array
+File: P13.sol
+What does the program do?
+Stores student information on the Ethereum blockchain using a Solidity structure and array.
+
+Each student has:
+- Roll number
+- Name
+- Age
+- Course
+Code explanation
+1. struct Student
+struct Student {
+    uint256 rollNo;
+    string name;
+    uint256 age;
+    string course;
+}
+
+
+A structure groups different data types into one logical record.
+
+For example:
+Student
+ ├── Roll No: 64
+ ├── Name: Yash
+ ├── Age: 21
+ └── Course: Computer Engineering
+
+
+2. Student[] public students
+
+Creates a dynamic array of Student structures.
+- Student[]: Array can contain multiple student records.
+- public: Solidity generates a getter for individual array elements.
+Function-by-function explanation
+1. addStudent(uint256 _rollNo, string memory _name, uint256 _age, string memory _course)
+
+Purpose: Add a new student record.
+
+How it works:
+1. Accepts roll number, name, age and course.
+2. Creates a new Student structure.
+3. Uses students.push() to add the record to the array.
+students.push(
+    Student(_rollNo, _name, _age, _course)
+);
+
+
+2. getStudent(uint256 _index)
+
+Purpose: Retrieve the information of a student using the array index.
+Student memory student = students[_index];
+
+
+- Accesses the selected student.
+- Copies the structure into memory.
+- Returns its four fields.
+This is a view function because it only reads information.
+
+3. getStudentCount()
+
+Purpose: Return the total number of students stored.
+return students.length;
+
+
+The .length property returns the number of array elements.
+
+4. fallback()
+fallback() external payable
+
+
+Purpose: Executes when the contract receives an unmatched function call or unmatched calldata.
+
+It is also payable, so it can receive Ether in relevant calls.
+
+5. receive()
+receive() external payable {}
+
+
+Purpose: Handles direct Ether transfers to the contract when the call contains empty calldata.
+Function summary
+Function / Component	Purpose
+Student	Defines student data structure
+addStudent()	Adds student information
+getStudent()	Retrieves a student's information
+getStudentCount()	Returns total student count
+fallback()	Handles unmatched function calls
+receive()	Handles direct Ether transfers
+students	Stores student records in a dynamic array
+
+Important practical point
+getStudent(_index) uses zero-based indexing.
+
+If there are three students, their indices are:
+Student 1 → Index 0
+Student 2 → Index 1
+Student 3 → Index 2
+
+
+An invalid index causes the transaction or call to revert.
+
+Important: Adding student information changes blockchain state and requires a transaction and gas. Reading it through a view call does not require an on-chain state-changing transaction.
+
+P14 — Survey of Blockchain Types and Real-Time Applications
+File: P14.md
+What does the practical do?
+Studies different types of blockchain architectures, their characteristics, advantages, disadvantages and applications.
+
+There are four main blockchain types in the report.
+
+
+
+
+
+
+
+
+
+1. Public Blockchain
+
+Anyone can participate in the network and verify transactions according to its rules.
+
+Examples: Bitcoin and Ethereum.
+
+Uses: Cryptocurrency, DeFi and NFTs.
+
+
+
+
+
+
+
+
+
+
+
+
+2. Private Blockchain
+
+Controlled by a single organization. Access is restricted.
+
+Uses: Enterprise records, internal auditing and supply chain management.
+
+
+
+
+
+
+
+
+
+
+
+
+3. Consortium Blockchain
+
+Controlled by multiple participating organizations.
+
+Uses: Banking, interbank settlement, trade finance and insurance.
+
+
+
+
+
+
+
+
+
+
+
+
+4. Hybrid Blockchain
+
+Combines public verification with private, restricted information.
+
+Uses: Healthcare, government, real estate and supply chain.
+
+
+
+Comparison
+Feature	Public	Private	Consortium	Hybrid
+Access	Open	Restricted	Selected organizations	Mixed
+Control	Decentralized	Single organization	Multiple organizations	Combined
+Privacy	Lower	High	High	Selective
+Transparency	High	Limited	Controlled	Selective
+
+Real-time applications covered
+1. Cryptocurrency — Bitcoin, Ether.
+2. Banking — Cross-border payments and settlement.
+3. Supply chain — Product tracking.
+4. Healthcare — Medical records.
+5. Digital identity — Digital certificates.
+6. Voting — Auditable voting records.
+7. Real estate — Property ownership records.
+8. Insurance — Claims processing.
+9. Digital assets — NFTs.
+10. Education — Verifiable certificates.
+Function summary
+P14 is a survey report, not a programming practical. It does not contain executable functions.
+
+You should understand:
+- Four blockchain types.
+- Differences between public and private networks.
+- Consortium and hybrid architecture.
+- Real-world use cases.
+- Advantages and limitations of blockchain.
+- Smart contracts and distributed ledgers.
